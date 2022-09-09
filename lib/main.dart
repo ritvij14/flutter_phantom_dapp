@@ -89,9 +89,12 @@ class _MainAppState extends State<MainApp> {
     };
     String payloadJson = encoder.convert(payload);
 
-    final encryptedMsg = sharedSecret.encrypt(
-      Uint8List.fromList(payloadJson.codeUnits),
-    );
+    var nonce = PineNaClUtils.randombytes(24);
+
+    final encryptedMsg = _box.encrypt(
+      _encoder.convert(payload).codeUnits.toUint8List(),
+      nonce: nonce,
+    ).cipherText;
 
     Uri url = Uri(
       scheme: 'https',
