@@ -92,7 +92,7 @@ class _MainAppState extends State<MainApp> {
     var nonce = PineNaClUtils.randombytes(24);
 
     final encryptedMsg = _box.encrypt(
-      _encoder.convert(payload).codeUnits.toUint8List(),
+      encoder.convert(payload).codeUnits.toUint8List(),
       nonce: nonce,
     ).cipherText;
 
@@ -102,7 +102,7 @@ class _MainAppState extends State<MainApp> {
       path: '/ul/v1/disconnect',
       queryParameters: {
         'dapp_encryption_public_key': base58.encode(pk.asTypedList),
-        'nonce': base58.encode(encryptedMsg.nonce.toUint8List()),
+        'nonce': base58.encode(nonce.toUint8List()),
         'payload': base58.encode(encryptedMsg.toUint8List()),
         'redirect_link': 'flutterphantom://deeplink.disconnect',
       },
